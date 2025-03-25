@@ -1,59 +1,48 @@
 # Estudos sobre Aplicações
 
-Bem-vindo ao repositório de estudos sobre aplicações! Aqui, você encontrará exemplos, códigos e documentações relacionados aos seus estudos em desenvolvimento de aplicações.
+Bem-vindo ao repositório de estudos sobre aplicações! Este projeto demonstra a construção de uma API RESTful utilizando **Spring Boot** e **Maven**, com exemplos simples para controle de produtos.
 
 ## Estrutura do Repositório
 
-- **.mvn/wrapper/**: Contém arquivos relacionados ao Maven Wrapper, permitindo a construção do projeto sem necessidade de uma instalação prévia do Maven.
-- **src/**: Diretório principal do código-fonte do projeto.
-- **.gitattributes**: Define atributos específicos para arquivos no Git.
-- **.gitignore**: Especifica quais arquivos e diretórios devem ser ignorados pelo Git.
-- **mvnw** e **mvnw.cmd**: Scripts para executar o Maven Wrapper em ambientes Unix e Windows, respectivamente.
-- **pom.xml**: Arquivo de configuração do Maven que gerencia as dependências e plugins do projeto.
+- **.mvn/wrapper/**: Arquivos do Maven Wrapper para facilitar a execução do projeto.
+- **src/**: Código-fonte da aplicação.
+  - **ControllerPing.java**: Endpoint para teste de conectividade (`/ping`).
+  - **ControllerProduto.java**: CRUD de produtos na memória (`/produtos`).
+  - **Produto.java**: Classe modelo representando um produto.
+  - **StudyApixApplication.java**: Classe principal da aplicação Spring Boot.
+- **application.properties**: Configurações da aplicação.
+- **pom.xml**: Arquivo de configuração do Maven.
 
-## Links úteis
-
-Acesse os principais recursos diretamente pelos links abaixo:
-
-- [Swagger UI](http://localhost:9000/swagger-ui/index.html)
-
-## Como Usar
+## Como Executar
 
 1. **Clone o Repositório:**
 
-   ```sh
+   ```bash
    git clone https://github.com/GN0Ber/study-apix.git
    ```
 
-2. **Navegue até o Diretório do Projeto:**
+2. **Navegue até a pasta do projeto:**
 
-   ```sh
+   ```bash
    cd study-apix
    ```
 
-3. **Execute o Projeto:**
+3. **Execute o projeto com Maven:**
 
-   Utilize o Maven Wrapper para compilar e executar o projeto:
-
-   ```sh
-   ./mvnw spring-boot:run
+   ```bash
+   mvn spring-boot:run
    ```
 
-   Ou, no Windows:
+4. **Acesse a API:**
 
-   ```sh
-   mvnw.cmd spring-boot:run
-   ```
+   - Teste de conectividade: [http://localhost:8080/ping](http://localhost:8080/ping)
+   - Endpoints de Produto: [http://localhost:8080/produtos](http://localhost:8080/produtos)
+   - Documentação Swagger: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 
-4. **Acesse a Documentação da API:**
+## Dependências
 
-   Após iniciar a aplicação, acesse o [Swagger UI](http://localhost:9000/swagger-ui/index.html) para visualizar e interagir com os endpoints disponíveis.
+A aplicação depende das seguintes bibliotecas principais (listadas no `pom.xml`):
 
-## Contribuição
-
-Caso queira contribuir, fique à vontade para abrir uma *issue* ou enviar um *pull request*.
-
----
-
-Mantenha este README atualizado conforme novos recursos forem adicionados! 🚀
-
+- Spring Boot Starter Web
+- Spring Boot DevTools
+- Swagger (Springfox)

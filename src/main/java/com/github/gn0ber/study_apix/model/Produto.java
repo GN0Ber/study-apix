@@ -1,4 +1,4 @@
-package com.github.gn0ber.study_apix;
+package com.github.gn0ber.study_apix.model;
 
 public class Produto {
     // Atributes

@@ -1,5 +1,6 @@
-package com.github.gn0ber.study_apix;
+package com.github.gn0ber.study_apix.controler;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,13 +10,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.gn0ber.study_apix.model.Produto;
+import com.github.gn0ber.study_apix.service.ProdutoService;
+
 @RestController
 @RequestMapping("/produtos")
 public class ControllerProduto {
 
+    @Autowired
+    private ProdutoService produtoService;
+
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody Produto produto) {
-        return ResponseEntity.status(201).body("Produto Cadastrado");
+    public ResponseEntity<Produto> create(@RequestBody Produto request) {
+
+        Produto produto = produtoService.save(request);
+
+        return ResponseEntity.status(201).body(produto);
     }
 
     @PutMapping
