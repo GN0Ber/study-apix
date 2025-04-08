@@ -55,9 +55,14 @@ public class ControllerProduto {
     }
     
     // Métodos DELETE
-    @DeleteMapping
-    public ResponseEntity<Void> delete() {
-        return ResponseEntity.status(204).build();
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        Boolean result = produtoService.deleteById(id);
+        if (result) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }
