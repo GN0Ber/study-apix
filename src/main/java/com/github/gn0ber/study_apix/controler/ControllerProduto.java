@@ -47,13 +47,11 @@ public class ControllerProduto {
         return ResponseEntity.status(200).body(produto);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Produto> findById(@PathVariable Long id) {
-        Optional<Produto> opt = produtoService.findById(id);
-        if (opt.isPresent()) {
-            return ResponseEntity.ok(opt.get());
-        }
-        return ResponseEntity.notFound().build();
+        return produtoService.findById(id) 
+            .map(p -> ResponseEntity.ok(p))
+            .orElse(ResponseEntity.notFound().build());
     }
     
     // Métodos DELETE
