@@ -1,7 +1,7 @@
 package com.github.gn0ber.study_apix.controler;
 
 import java.util.List;
-import java.util.Optional;
+// import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.gn0ber.study_apix.dto.ProdutoRequestCreate;
+import com.github.gn0ber.study_apix.dto.ProdutoRequestUpdate;
+import com.github.gn0ber.study_apix.dto.ProdutoResponse;
 import com.github.gn0ber.study_apix.model.Produto;
 import com.github.gn0ber.study_apix.service.ProdutoService;
 
@@ -35,9 +37,19 @@ public class ControllerProduto {
     }
 
     // Métodos PUT
-    @PutMapping
-    public ResponseEntity<String> update() {
-        return ResponseEntity.status(200).body("Produto Atualizado");
+    @PutMapping("/{id}")
+    public ResponseEntity<ProdutoResponse> update(@PathVariable Long id, @RequestBody ProdutoRequestUpdate dto) {
+
+        return produtoService.update(id, dto)
+            .map(produto -> {
+                ProdutoResponse response = new ProdutoResponse();
+                response.setId(produto.getId());
+                response.setNome(produto.getNome());
+                return ResponseEntity.status(200).body(response);
+                // return response;
+            })
+            // .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
     }
     
     // Métodos GET
