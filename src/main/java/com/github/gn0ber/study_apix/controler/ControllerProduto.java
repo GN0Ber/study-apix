@@ -1,7 +1,7 @@
 package com.github.gn0ber.study_apix.controler;
 
 import java.util.List;
-// import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.gn0ber.study_apix.dto.ProdutoRequestCreate;
 import com.github.gn0ber.study_apix.dto.ProdutoRequestUpdate;
 import com.github.gn0ber.study_apix.dto.ProdutoResponse;
-import com.github.gn0ber.study_apix.model.Produto;
 import com.github.gn0ber.study_apix.service.ProdutoService;
 
 @RestController
@@ -29,40 +28,37 @@ public class ControllerProduto {
 
     // Métodos POST
     @PostMapping
-    public ResponseEntity<Produto> create(@RequestBody ProdutoRequestCreate dto) {
-
-        Produto produto = produtoService.save(dto);
-
-        return ResponseEntity.status(201).body(produto);
+    public ResponseEntity<ProdutoResponse> create(@RequestBody ProdutoRequestCreate dto) {
+        return ResponseEntity.status(201).body(
+            new ProdutoResponse()
+                .toDto(produtoService.save(dto))
+        );
     }
 
     // Métodos PUT
     @PutMapping("/{id}")
     public ResponseEntity<ProdutoResponse> update(@PathVariable Long id, @RequestBody ProdutoRequestUpdate dto) {
-
         return produtoService.update(id, dto)
-            .map(produto -> {
-                ProdutoResponse response = new ProdutoResponse();
-                response.setId(produto.getId());
-                response.setNome(produto.getNome());
-                return ResponseEntity.status(200).body(response);
-                // return response;
-            })
-            // .map(ResponseEntity::ok)
+            .map(produto -> ResponseEntity.ok(new ProdutoResponse().toDto(produto)))
             .orElse(ResponseEntity.notFound().build());
     }
     
     // Métodos GET
     @GetMapping
-    public ResponseEntity<List<Produto>> findAll() {
-        List<Produto> produto = produtoService.findAll();
-        return ResponseEntity.status(200).body(produto);
+    public ResponseEntity<List<ProdutoResponse>> findAll() {
+        return ResponseEntity.ok(
+            produtoService
+            .findAll()
+            .stream()
+            .map(produto -> new ProdutoResponse().toDto(produto))
+            .collect(Collectors.toList())
+        );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Produto> findById(@PathVariable Long id) {
+    public ResponseEntity<ProdutoResponse> findById(@PathVariable Long id) {
         return produtoService.findById(id) 
-            .map(p -> ResponseEntity.ok(p))
+            .map(produto -> ResponseEntity.ok(new ProdutoResponse().toDto(produto)))
             .orElse(ResponseEntity.notFound().build());
     }
     
